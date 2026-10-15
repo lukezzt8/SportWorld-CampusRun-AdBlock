@@ -4,6 +4,11 @@
 [![Rules](https://img.shields.io/badge/rules-128-blue.svg)](#规则构成)
 [![No Root](https://img.shields.io/badge/root-not%20required-green.svg)](#为什么不需要-root)
 
+> **完全不懂技术?** → 看 [**小白使用指南**](docs/getting-started.md),
+> 里面写了三种方法,包括「把这件事交给 AI 帮你做」。
+> 或者直接把这段话复制给任意 AI 助手:
+> 我要给手机上的「运动世界校园」去广告,我完全不懂技术,请一步一步教我。规则在 https://github.com/lukezzt8/SportWorld-CampusRun-AdBlock
+
 针对 **运动世界校园**(`com.zjwh.android_wh_physicalfitness`)的广告域名拦截规则。
 
 规则从 APK 静态逆向提取,并经手机实测日志验证。**不修改 APK、不需要 Root。**
