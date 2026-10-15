@@ -45,6 +45,44 @@
 
 适用于:只想屏蔽广告,不需要科学上网。
 
+### 在线订阅地址(URL 方式)
+
+仓库已托管在 GitHub,可以直接用 URL 引用,不用手动下载:
+
+**Clash rule-provider 地址(GitHub 源):**
+
+`
+https://raw.githubusercontent.com/lukezzt8/SportWorld-CampusRun-AdBlock/main/rules/campusrun.yaml
+`
+
+**国内推荐用 jsDelivr CDN 镜像**(GitHub raw 在国内经常无法访问,CDN 更快更稳):
+
+`
+https://cdn.jsdelivr.net/gh/lukezzt8/SportWorld-CampusRun-AdBlock@main/rules/campusrun.yaml
+`
+
+**hosts 文件地址:**
+
+`
+https://cdn.jsdelivr.net/gh/lukezzt8/SportWorld-CampusRun-AdBlock@main/rules/hosts.txt
+`
+
+使用 CDN 地址作为 rule-provider 的示例:
+
+`yaml
+rule-providers:
+  campusrun:
+    type: http
+    behavior: domain
+    format: yaml
+    interval: 86400
+    url: 'https://cdn.jsdelivr.net/gh/lukezzt8/SportWorld-CampusRun-AdBlock@main/rules/campusrun.yaml'
+`
+
+> 用 URL 方式的好处:规则更新后客户端会自动拉取,不用手动替换文件。
+
+---
+
 ### 方式二:作为规则集叠加(推荐)
 
 用 [`rules/campusrun.yaml`](rules/campusrun.yaml) 作为 Clash 的 `rule-provider`:
