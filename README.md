@@ -4,10 +4,36 @@
 [![Rules](https://img.shields.io/badge/rules-128-blue.svg)](#规则构成)
 [![No Root](https://img.shields.io/badge/root-not%20required-green.svg)](#为什么不需要-root)
 
-> **完全不懂技术?** → 看 [**小白使用指南**](docs/getting-started.md),
-> 里面写了三种方法,包括「把这件事交给 AI 帮你做」。
-> 或者直接把这段话复制给任意 AI 助手:
-> 我要给手机上的「运动世界校园」去广告,我完全不懂技术,请一步一步教我。规则在 https://github.com/lukezzt8/SportWorld-CampusRun-AdBlock
+## 🎯 不懂技术?复制这段话给 AI 就行
+
+打开任意 AI 助手(**豆包 / DeepSeek / 通义千问 / ChatGPT** 都行),把下面这段发给它:
+
+```
+我要给手机上的「运动世界校园」App 去掉广告。
+
+我完全不懂技术,请你手把手教我:
+
+1. 规则已经有人做好了,地址是:
+   https://github.com/lukezzt8/SportWorld-CampusRun-AdBlock
+
+2. 每次只让我做一件事,我回复「好了」你再讲下一步
+
+3. 告诉我每一步在手机上点哪里(具体到"打开设置 → 找到应用 → ...")
+
+4. 不要说专业名词;必须说的,先用大白话解释一遍
+
+5. 我不会或者找不到时,换个方式教我
+
+6. 我发截图给你,你要能看懂
+
+最后告诉我:怎么确认成功?万一坏了怎么恢复原样?
+```
+
+AI 会先问你几个问题,然后一步步带你做完。**卡住了就直接截图发给它。**
+
+> 更详细的小白图文步骤 👉 [**docs/getting-started.md**](docs/getting-started.md)
+
+---
 
 针对 **运动世界校园**(`com.zjwh.android_wh_physicalfitness`)的广告域名拦截规则。
 

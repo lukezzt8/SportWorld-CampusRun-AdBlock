@@ -5,7 +5,7 @@
 | 项目 | 值 |
 |---|---|
 | 原始路径 | `D:\base.apk.1.apk.1_tmp.apk.1_tmp` |
-| 工作副本 | ``<本地路径>` |
+| 工作副本 | `00_original\base.apk` |
 | 大小 | 317.4 MB (332,825,000 字节) |
 | SHA256 | `5D4EA7152C77BF1C088C719FD94736C8096BAF1C0985489BFAD24140D46DB365` |
 | 文件类型 | 有效 ZIP / Android APK(v1 签名 `META-INF/SPORTSWO.RSAPK`) |

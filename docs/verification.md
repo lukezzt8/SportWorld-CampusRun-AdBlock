@@ -225,7 +225,7 @@ Warning: [TCP] dial DIRECT (match RuleSet/cn_domain) --> idm.iot.mi.com:443
 ## 附录:交付文件位置
 
 ```
-`<本地路径>`
+工作目录
 ├─ 04_patch\
 │   ├─ 运动世界校园-去广告-合并订阅.yaml    ← 最终配置(190 条规则 + 你的 全部节点)
 │   ├─ 01_clash_ad_block.yaml              域名清单(源码)
@@ -243,7 +243,7 @@ Warning: [TCP] dial DIRECT (match RuleSet/cn_domain) --> idm.iot.mi.com:443
 ### 验证配置完整性(随时可重跑)
 
 ```
-C:\Python313\python.exe `<本地路径>`
+python 02_inspect/42_verify_merge.py
 ```
 
 输出应包含:全部节点保留、原有的全部规则未丢失、兜底规则 `MATCH,示例机场` 仍在最后。
