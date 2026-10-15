@@ -1,7 +1,7 @@
 # 运动世界校园 广告域名拦截规则 / Clash rule-provider
 # CampusRun Ad-Block Ruleset for Clash / mihomo
 #
-# 规则条数: 129 (99 父域 + 29 精确)
+# 规则条数: 128 (99 父域 + 29 精确)
 # 数据来源: APK 静态逆向 + 手机实测日志验证
 #
 # 用法 (rule-provider):
@@ -15,6 +15,9 @@
 #            path: ./ruleset/campusrun.yaml
 #   3. 在 rules: 的最前面加入:
 #        - 'RULE-SET,campusrun,REJECT'
+#
+# 或直接用在线地址 (无需下载):
+#   https://cdn.jsdelivr.net/gh/lukezzt8/SportWorld-CampusRun-AdBlock@main/rules/campusrun.yaml
 #
 # 注意: 放在 rules 最前面才会生效, 规则按顺序匹配。
 

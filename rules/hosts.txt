@@ -1,5 +1,7 @@
 # 运动世界校园 广告域名 / hosts format
-# 共 129 条。可导入 AdGuard / NetGuard / RethinkDNS / AdAway, 或追加到系统 hosts。
+# 共 128 条 (99 父域 + 29 精确)
+# 可导入 AdGuard / NetGuard / RethinkDNS / AdAway, 或追加到系统 hosts。
+# 在线地址: https://cdn.jsdelivr.net/gh/lukezzt8/SportWorld-CampusRun-AdBlock@main/rules/hosts.txt
 
 0.0.0.0 taobao.com
 0.0.0.0 tmall.com

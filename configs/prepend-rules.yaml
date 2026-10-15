@@ -1,8 +1,11 @@
 # 运动世界校园 去广告 — 叠加(prepend)规则
+# 共 128 条 (99 父域 + 29 精确)
+#
 # 用途: 把这批规则插到你现有配置的 rules 最前面, 不改动你的节点与原有规则。
 # 适用: Clash Verge Rev 的「规则覆写」、mihomo 的 mixin / patch
 #
-# 警告: 不要加 MATCH 兜底规则, 否则会覆盖你自己配置的兜底规则导致无法代理。
+# ⚠️ 警告: 不要加 MATCH 兜底规则, 否则会覆盖你自己配置的兜底规则导致无法代理。
+#          本文件已刻意不含兜底规则。
 
 prepend:
   - 'DOMAIN-SUFFIX,taobao.com,REJECT'

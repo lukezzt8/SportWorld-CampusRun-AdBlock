@@ -1,7 +1,8 @@
 # 运动世界校园 广告域名清单 / Plain domain list
-# 共 129 条。前半部分为父域(可配通配符), 后半部分为精确域名。
+# 共 128 条 (99 父域 + 29 精确)
+# 前半部分为父域(可配通配符 *.example.com), 后半部分为精确域名。
 
-# ---- 父域 (适合 *.example.com 通配匹配) ----
+# ---- 父域 (99 条) ----
 taobao.com
 tmall.com
 alicdn.com
@@ -102,7 +103,7 @@ qzs.qq.com
 i.gtimg.cn
 qzonestyle.gtimg.cn
 
-# ---- 精确域名 ----
+# ---- 精确域名 (29 条) ----
 dm.bytedance.com
 webcast5-open-lf.douyin.com
 webcast-open.douyin.com
