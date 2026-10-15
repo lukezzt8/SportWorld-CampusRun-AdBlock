@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>运动世界校园 去广告项目 · 全过程总结</title>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#171a21; --panel2:#1e222b; --line:#2a2f3a;
+    --tx:#e6e9ef; --tx2:#a8b0c0; --tx3:#6f7889;
+    --ac:#4d9fff; --ok:#34d17a; --warn:#f5a524; --bad:#f2545b; --purple:#a78bfa;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:var(--bg); color:var(--tx); line-height:1.75;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:48px 24px 96px}
+
+  /* ---------- 头部 ---------- */
+  header{text-align:center;padding:56px 0 44px;border-bottom:1px solid var(--line);margin-bottom:56px}
+  .badge{
+    display:inline-block;padding:5px 14px;border-radius:999px;font-size:12.5px;
+    background:rgba(77,159,255,.12);color:var(--ac);border:1px solid rgba(77,159,255,.3);
+    letter-spacing:.4px;margin-bottom:22px;
+  }
+  h1{font-size:clamp(26px,4.2vw,40px);font-weight:700;letter-spacing:-.5px;line-height:1.3}
+  h1 .sub{display:block;font-size:.5em;font-weight:400;color:var(--tx2);margin-top:14px;letter-spacing:0}
+  .meta{margin-top:26px;font-size:13.5px;color:var(--tx3);display:flex;gap:22px;justify-content:center;flex-wrap:wrap}
+  .meta span{display:flex;align-items:center;gap:7px}
+  .dot{width:6px;height:6px;border-radius:50%;background:var(--ok)}
+
+  /* ---------- 通用 ---------- */
+  section{margin-bottom:64px}
+  h2{
+    font-size:22px;font-weight:650;margin-bottom:8px;display:flex;align-items:center;gap:12px;
+    letter-spacing:-.2px;
+  }
+  h2 .n{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:30px;height:30px;border-radius:9px;font-size:14px;font-weight:700;
+    background:linear-gradient(135deg,var(--ac),var(--purple));color:#fff;flex:none;
+  }
+  h2+.lead{color:var(--tx2);font-size:14.5px;margin-bottom:24px;padding-left:42px}
+  h3{font-size:16px;font-weight:600;margin:28px 0 12px;color:var(--tx)}
+  p{color:var(--tx2);font-size:14.5px;margin-bottom:14px}
+  strong{color:var(--tx);font-weight:600}
+  code{
+    font-family:"SF Mono",Consolas,"Cascadia Code",monospace;font-size:.875em;
+    background:var(--panel2);padding:2px 6px;border-radius:4px;color:#8ec7ff;
+  }
+
+  /* ---------- 卡片 ---------- */
+  .card{
+    background:var(--panel);border:1px solid var(--line);border-radius:14px;
+    padding:24px 26px;margin-bottom:16px;
+  }
+  .card.hl{border-color:rgba(77,159,255,.35);background:linear-gradient(180deg,rgba(77,159,255,.05),transparent)}
+  .card.bad{border-color:rgba(242,84,91,.3);background:linear-gradient(180deg,rgba(242,84,91,.05),transparent)}
+  .card.ok{border-color:rgba(52,209,122,.3);background:linear-gradient(180deg,rgba(52,209,122,.05),transparent)}
+
+  /* ---------- 统计网格 ---------- */
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));gap:14px;margin:20px 0}
+  .stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 16px;text-align:center}
+  .stat .v{font-size:25px;font-weight:700;color:var(--ac);letter-spacing:-.5px;line-height:1.2}
+  .stat .v.g{color:var(--ok)} .stat .v.w{color:var(--warn)} .stat .v.p{color:var(--purple)}
+  .stat .k{font-size:12px;color:var(--tx3);margin-top:7px;letter-spacing:.2px}
+
+  /* ---------- 流程步骤 ---------- */
+  .flow{display:flex;flex-direction:column;gap:0;margin:22px 0}
+  .step{display:flex;gap:18px;position:relative;padding-bottom:26px}
+  .step:last-child{padding-bottom:0}
+  .step::before{
+    content:"";position:absolute;left:15px;top:34px;bottom:0;width:1px;background:var(--line);
+  }
+  .step:last-child::before{display:none}
+  .step .ico{
+    width:32px;height:32px;border-radius:50%;flex:none;z-index:1;
+    display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;
+    background:var(--panel2);border:1px solid var(--line);color:var(--tx2);
+  }
+  .step.done .ico{background:rgba(52,209,122,.15);border-color:rgba(52,209,122,.4);color:var(--ok)}
+  .step.block .ico{background:rgba(242,84,91,.15);border-color:rgba(242,84,91,.4);color:var(--bad)}
+  .step.now .ico{background:rgba(77,159,255,.15);border-color:rgba(77,159,255,.45);color:var(--ac)}
+  .step .body{flex:1;padding-top:3px}
+  .step .t{font-weight:600;font-size:15px;margin-bottom:5px}
+  .step .d{color:var(--tx2);font-size:14px}
+
+  /* ---------- 表格 ---------- */
+  table{width:100%;border-collapse:collapse;margin:18px 0;font-size:13.8px}
+  th,td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--line)}
+  th{color:var(--tx3);font-weight:600;font-size:12.5px;letter-spacing:.3px;text-transform:uppercase}
+  td{color:var(--tx2)}
+  td:first-child{color:var(--tx);font-weight:500}
+  tbody tr:hover{background:rgba(255,255,255,.018)}
+  .num{font-family:"SF Mono",Consolas,monospace;color:var(--ac);font-weight:600}
+
+  /* ---------- 列表 ---------- */
+  ul{list-style:none;margin:12px 0}
+  li{color:var(--tx2);font-size:14.3px;padding-left:24px;position:relative;margin-bottom:9px}
+  li::before{content:"";position:absolute;left:7px;top:10px;width:5px;height:5px;border-radius:50%;background:var(--ac);opacity:.65}
+  li.ok::before{background:var(--ok)}
+  li.no::before{background:var(--bad)}
+
+  /* ---------- 代码块 ---------- */
+  pre{
+    background:#0a0c10;border:1px solid var(--line);border-radius:10px;
+    padding:16px 18px;overflow-x:auto;margin:16px 0;
+    font-family:"SF Mono",Consolas,monospace;font-size:12.9px;line-height:1.7;color:#c9d3e3;
+  }
+  pre .c{color:#5c667a}
+  pre .g{color:#5fd68f}
+  pre .r{color:#f2545b}
+  pre .y{color:#f5c451}
+  pre .b{color:#6fb6ff}
+
+  /* ---------- 对比条 ---------- */
+  .cmp{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+  @media(max-width:640px){.cmp{grid-template-columns:1fr}}
+  .cmp>div{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .cmp h4{font-size:13px;color:var(--tx3);font-weight:600;margin-bottom:10px;letter-spacing:.3px}
+  .cmp .big{font-size:22px;font-weight:700;color:var(--ac)}
+  .cmp .big.g{color:var(--ok)}
+
+  /* ---------- 引用 ---------- */
+  .quote{
+    border-left:3px solid var(--ac);background:rgba(77,159,255,.05);
+    padding:14px 20px;border-radius:0 8px 8px 0;margin:18px 0;
+    font-size:14px;color:var(--tx2);
+  }
+  .quote.warn{border-color:var(--warn);background:rgba(245,165,36,.05)}
+
+  /* ---------- 时间线 ---------- */
+  .tl{margin:20px 0}
+  .tl .row{display:grid;grid-template-columns:104px 1fr;gap:18px;padding:13px 0;border-bottom:1px solid var(--line)}
+  .tl .row:last-child{border-bottom:none}
+  .tl .tag{font-size:12.5px;color:var(--ac);font-family:"SF Mono",Consolas,monospace;padding-top:2px}
+  .tl .txt{font-size:14.2px;color:var(--tx2)}
+  .tl .txt b{color:var(--tx);font-weight:600}
+
+  footer{
+    margin-top:80px;padding-top:32px;border-top:1px solid var(--line);
+    text-align:center;color:var(--tx3);font-size:13px;
+  }
+  .tagline{display:inline-block;padding:3px 10px;border-radius:6px;background:var(--panel2);color:var(--tx2);font-size:12px;margin:0 3px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="badge">项目全过程总结</div>
+  <h1>运动世界校园 · 去广告
+    <span class="sub">从 APK 解包到网络层屏蔽的完整技术路径</span>
+  </h1>
+  <div class="meta">
+    <span><i class="dot"></i>com.zjwh.android_wh_physicalfitness</span>
+    <span><i class="dot"></i>版本 7.3.70</span>
+    <span><i class="dot"></i>2026-10-15</span>
+  </div>
+</header>
+
+<!-- ============ 1. 项目概述 ============ -->
+<section>
+  <h2><span class="n">1</span>项目概述</h2>
+  <p class="lead">目标:去掉「运动世界校园」App 内的全部广告,同时不影响它的任何正常功能,且不依赖 Root。</p>
+
+  <div class="card hl">
+    <p style="margin:0">这个 App 是一个校园跑步打卡类应用,内置了 <strong>11 个第三方广告变现 SDK</strong>,
+    并通过 <strong>网易易盾加固</strong>保护代码。项目从解包分析入手,在确认代码被完整加密、
+    无法静态修改后,转向<strong>网络层屏蔽</strong>方案,最终交付一套 190 条的域名拦截规则。</p>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="v">317.4<span style="font-size:.55em"> MB</span></div><div class="k">APK 体积</div></div>
+    <div class="stat"><div class="v">6405</div><div class="k">APK 内部条目</div></div>
+    <div class="stat"><div class="v w">11</div><div class="k">广告 SDK 数量</div></div>
+    <div class="stat"><div class="v g">190</div><div class="k">最终拦截规则</div></div>
+    <div class="stat"><div class="v p">85%</div><div class="k">实测拦截率</div></div>
+    <div class="stat"><div class="v g">0</div><div class="k">需要的 Root 权限</div></div>
+  </div>
+</section>
+
+<!-- ============ 2. 解包与侦测 ============ -->
+<section>
+  <h2><span class="n">2</span>第一阶段:解包与身份侦测</h2>
+  <p class="lead">先建立工具链,再把 APK 拆开,搞清楚它到底是什么、由什么构成。</p>
+
+  <h3>2.1 搭建逆向工具链</h3>
+  <p>在 <code>F:\apk_reverse\01_tools\</code> 下部署了一套免安装的便携工具链,全部验证可用:</p>
+
+  <table>
+    <thead><tr><th>工具</th><th>版本</th><th>用途</th></tr></thead>
+    <tbody>
+      <tr><td>Temurin JDK</td><td class="num">21.0.12.1</td><td>运行所有 Java 系工具的基础环境</td></tr>
+      <tr><td>apktool</td><td class="num">3.0.3</td><td>解包 APK、还原资源与清单</td></tr>
+      <tr><td>jadx</td><td class="num">1.5.6</td><td>DEX 反编译为 Java 源码</td></tr>
+      <tr><td>smali / baksmali</td><td class="num">2.5.2</td><td>DEX 与 smali 汇编互转</td></tr>
+      <tr><td>androguard</td><td class="num">4.1.4</td><td>APK 静态分析库</td></tr>
+    </tbody>
+  </table>
+
+  <h3>2.2 应用身份确认</h3>
+  <p>从 <code>AndroidManifest.xml</code> 的字符串池中提取到包名,结合高德地图 SDK 的
+  <code>build.properties</code>(<code>iid=6363</code>、<code>version=12.10.0.10010731</code>)
+  与项目代号 <code>sportsword</code>,确认目标为<strong>运动世界校园 7.3.70</strong>。</p>
+
+  <h3>2.3 技术栈构成</h3>
+  <div class="card">
+    <p style="margin:0">Flutter 主 UI(<code>assets/flutter_assets</code> + <code>libapp.so</code>)
+    + 原生 Android(OkHttp / Retrofit / Room / Hilt)
+    + 高德地图导航 SDK(<code>libAMapSDK_NAVI</code> 37 MB)
+    + H5 混合容器。</p>
+  </div>
+
+  <h3>2.4 广告 SDK 清点</h3>
+  <p>从清单组件声明、原生库、assets 三处交叉比对,确认内置了 11 个广告变现 SDK:</p>
+
+  <table>
+    <thead><tr><th>SDK</th><th>归属</th><th>确认依据</th></tr></thead>
+    <tbody>
+      <tr><td>腾讯优量汇</td><td>腾讯</td><td><code>assets/gdt_plugin/gdtadv2.jar</code>、<code>libyf_ads.so</code></td></tr>
+      <tr><td>快手磁力引擎</td><td>快手</td><td>70+ 个 <code>com.kwad.sdk.api.proxy.app.*</code> 组件</td></tr>
+      <tr><td>穿山甲 / GroMore</td><td>字节跳动</td><td><code>com.bytedance.sdk.openadsdk</code>、<code>libtt_ugen_layout.so</code></td></tr>
+      <tr><td>百度 Mobads</td><td>百度</td><td><code>assets/bdxadsdk.jar</code></td></tr>
+      <tr><td>阿里天目</td><td>阿里</td><td><code>libsecsdk_tianmu.so</code>、<code>libnative-tianmu-lib.so</code></td></tr>
+      <tr><td>京东 JAD</td><td>京东</td><td><code>com.jd.ad.sdk.*</code> 组件声明</td></tr>
+      <tr><td>YFAN AdX</td><td>第三方</td><td><code>com.yfanads.android.adx.*</code></td></tr>
+      <tr><td>AdGain</td><td>第三方</td><td><code>com.adgain.sdk.base.activity.AdActivity</code></td></tr>
+      <tr><td>友盟 U-App</td><td>阿里</td><td><code>libumeng-spy.so</code>、全套 umeng 域名</td></tr>
+      <tr><td>华为 / 荣耀 / OPPO / 小米</td><td>厂商</td><td>各自的广告 SDK 组件与 <code>ads_base_url</code></td></tr>
+      <tr><td>OTS 线下推广</td><td>第三方</td><td><code>com.acse.ottn.*</code>(带无障碍诱导与进程保活)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="quote">
+    这个清单是后续所有工作的基础 —— 它决定了要屏蔽哪些域名。
+  </div>
+</section>
+
+<!-- ============ 3. 加密壁垒 ============ -->
+<section>
+  <h2><span class="n">3</span>第二阶段:发现代码被完整加密</h2>
+  <p class="lead">这是整个项目的转折点 —— 静态修改这条路在这里被彻底堵死。</p>
+
+  <h3>3.1 反常的 dex 文件</h3>
+  <p>apktool 解包 <strong>317 MB</strong> 的 APK 只用了 3 秒,这个速度对一个 73.8 MB 的 dex 来说极不正常。
+  解析 <code>classes.dex</code> 的 112 字节文件头后,真相浮出水面:</p>
+
+  <table>
+    <thead><tr><th>dex 头字段</th><th>数值</th><th>含义</th></tr></thead>
+    <tbody>
+      <tr><td><code>file_size</code></td><td class="num">77,391,616</td><td>文件确实是 73.8 MB</td></tr>
+      <tr><td><code>class_defs_size</code></td><td class="num" style="color:var(--bad)">30</td><td>整个文件只有 30 个类</td></tr>
+      <tr><td><code>method_ids_size</code></td><td class="num" style="color:var(--bad)">660</td><td>只有 660 个方法</td></tr>
+      <tr><td><code>data_size</code></td><td class="num" style="color:var(--bad)">50,336</td><td>真实数据只有 50 KB</td></tr>
+    </tbody>
+  </table>
+
+  <div class="quote warn">
+    <strong>结构性的矛盾:</strong>73.8 MB 的文件里只有 50 KB 有效数据。
+    这意味着约 <strong>73.7 MB 是加密载荷</strong>。
+  </div>
+
+  <h3>3.2 网易易盾加固</h3>
+  <p>apktool 解出的全部 30 个 smali 文件都位于 <code>com/netease/nis/wrapper/</code>,
+  这是网易易盾加固的典型特征:</p>
+
+  <pre><span class="c">com/netease/nis/wrapper/</span>
+├── MyApplication.smali            <span class="c">51.3 KB  应用入口被替换</span>
+├── MyJni.smali                    <span class="c">32.4 KB  调用 libnesec.so</span>
+├── NEDialog.smali                 <span class="c">17.2 KB  篡改检测弹窗</span>
+└── plugin/
+    ├── InstrumentationProxy.smali  <span class="c">3.8 KB  劫持 Activity 生命周期</span>
+    └── a~g.smali                   <span class="c">运行时解密并加载真 dex</span></pre>
+
+  <p>配合原生库证据:<code>libnesec.so</code>、<code>libnetseckit-4.2.4.so</code>
+  (易盾)、<code>libijiami_1011.so</code>(爱加密)。</p>
+
+  <h3>3.3 为什么这条路走不通</h3>
+  <div class="flow">
+    <div class="step block">
+      <div class="ico">✕</div>
+      <div class="body">
+        <div class="t">无 Root 无法脱壳</div>
+        <div class="d">真代码在运行时才被解密加载,静态拿不到。</div>
+      </div>
+    </div>
+    <div class="step block">
+      <div class="ico">✕</div>
+      <div class="body">
+        <div class="t">重打包必然破坏签名</div>
+        <div class="d">任何 smali 修改都要重新签名,而签名一变,易盾的完整性校验就会触发。</div>
+      </div>
+    </div>
+    <div class="step block">
+      <div class="ico">✕</div>
+      <div class="body">
+        <div class="t">反调试与反注入</div>
+        <div class="d"><code>InstrumentationProxy</code> 劫持生命周期,<code>NEDialog</code> 在检测到篡改时弹窗拦截。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card bad">
+    <p style="margin:0"><strong>结论:</strong>「脱壳 → 修改 smali → 重打包 → 重签名」这条常规路线,
+    在这个样本上<strong>投入产出比极差且大概率失败</strong>。必须换思路。</p>
+  </div>
+</section>
+
+<!-- ============ 4. 转向网络层 ============ -->
+<section>
+  <h2><span class="n">4</span>第三阶段:转向网络层屏蔽</h2>
+  <p class="lead">既然改不了 App,那就改它看到的世界 —— 在网络层把广告请求掐断。</p>
+
+  <h3>4.1 方案的可行性依据</h3>
+  <p>关键在于:加固保护的是 <strong>代码</strong>,但没有、也无法保护 <strong>网络请求</strong>。
+  广告 SDK 要投放广告,就必须向自己的服务器发请求 —— 而那些请求会经过系统网络栈,
+  可以被本地 VPN 拦截。</p>
+
+  <div class="card ok">
+    <p style="margin:0">Android 从 4.0 起提供 <strong><code>VpnService</code></strong> 机制,
+    普通应用即可创建本地 VPN 接管全部流量,<strong>完全不需要 Root</strong>。
+    用户手机上已有的 Clash 客户端本身就是基于这个机制运行的。</p>
+  </div>
+
+  <h3>4.2 一个意外的关键发现</h3>
+  <p>在解包产物 <code>res/xml/network_security_config.xml</code> 中,发现了开发者自己留下的配置
+    (含中文注释):</p>
+
+  <pre><span class="b">&lt;base-config</span> cleartextTrafficPermitted=<span class="g">"true"</span><span class="b">&gt;</span>
+    <span class="b">&lt;trust-anchors&gt;&lt;certificates</span> src=<span class="g">"system"</span> <span class="b">/&gt;&lt;/trust-anchors&gt;</span>   <span class="c">← 业务域: 只信系统证书</span>
+<span class="b">&lt;/base-config&gt;</span>
+
+<span class="b">&lt;domain-config</span> cleartextTrafficPermitted=<span class="g">"true"</span><span class="b">&gt;</span>
+    <span class="b">&lt;domain</span> includeSubdomains=<span class="g">"true"</span><span class="b">&gt;</span>i.snssdk.com<span class="b">&lt;/domain&gt;</span>          <span class="c">← 穿山甲</span>
+    <span class="b">&lt;domain</span> includeSubdomains=<span class="g">"true"</span><span class="b">&gt;</span>pangolin.snssdk.com<span class="b">&lt;/domain&gt;</span>
+    <span class="b">&lt;domain</span> includeSubdomains=<span class="g">"true"</span><span class="b">&gt;</span>mi.gdt.qq.com<span class="b">&lt;/domain&gt;</span>          <span class="c">← 腾讯优量汇</span>
+    <span class="b">&lt;domain</span> includeSubdomains=<span class="g">"true"</span><span class="b">&gt;</span>dig.bdurl.net<span class="b">&lt;/domain&gt;</span>           <span class="c">← 百度</span>
+    <span class="b">&lt;trust-anchors&gt;</span>
+        <span class="b">&lt;certificates</span> src=<span class="g">"user"</span> <span class="b">/&gt;</span> <span class="c">//信任用户自己安装的证书</span>
+        <span class="b">&lt;certificates</span> src=<span class="g">"system"</span> <span class="b">/&gt;</span>
+    <span class="b">&lt;/trust-anchors&gt;</span>
+<span class="b">&lt;/domain-config&gt;</span></pre>
+
+  <p>这段配置无意中公开了 <strong>10 个广告域名</strong>,而且证明它们与业务域走<strong>不同的信任链</strong>
+  —— 为后续的定向分析提供了官方标注过的目标清单。</p>
+
+  <h3>4.3 方案选型</h3>
+  <table>
+    <thead><tr><th>方案</th><th>可行性</th><th>原因</th></tr></thead>
+    <tbody>
+      <tr><td>动态 Hook(LSPosed / Frida)</td><td style="color:var(--bad)">排除</td><td>硬性要求 Root</td></tr>
+      <tr><td>静态脱壳改包重签名</td><td style="color:var(--bad)">排除</td><td>无 Root 无法脱壳,重签名必触发易盾</td></tr>
+      <tr><td>修改 hosts</td><td style="color:var(--bad)">排除</td><td>需 Root</td></tr>
+      <tr><td><strong>本地 VPN 做域名拦截</strong></td><td style="color:var(--ok)">采用</td><td>免 Root、不改 APK、易盾无法察觉</td></tr>
+    </tbody>
+  </table>
+
+  <div class="quote">
+    <strong>这个方案的核心优势:</strong>不修改 APK 的任何字节 → 签名不变 →
+    网易易盾的签名校验、完整性校验、反调试<strong>全部不会触发</strong>。
+    同时可随时一键撤销,不留痕迹。
+  </div>
+</section>
+
+<!-- ============ 5. 规则生成 ============ -->
+<section>
+  <h2><span class="n">5</span>第四阶段:广告域名清单的生成</h2>
+  <p class="lead">规则从哪来 —— 三条互相印证的证据链。</p>
+
+  <h3>5.1 未加密的突破口</h3>
+  <p>易盾加密的是方法体,<strong>字符串常量表仍然可读</strong>。另外有几个高价值文件完全没被加密:</p>
+
+  <table>
+    <thead><tr><th>来源</th><th>性质</th><th>获取内容</th></tr></thead>
+    <tbody>
+      <tr><td><code>res/values/arrays.xml</code></td><td>明文资源</td><td><strong>应用自带的 <code>adBlockUrl</code> 广告黑名单</strong></td></tr>
+      <tr><td><code>assets/gdt_plugin/gdtadv2.jar</code></td><td>未加密 JAR</td><td>腾讯优量汇 SDK 本体与明文 API 路径</td></tr>
+      <tr><td><code>assets/bdxadsdk.jar</code></td><td>未加密 JAR</td><td>百度 Mobads SDK 本体</td></tr>
+      <tr><td><code>assets/ksad_idc.json</code></td><td>明文 JSON</td><td>快手磁力 SDK 的完整 IDC 域名表</td></tr>
+      <tr><td><code>classes.dex</code> 字符串表</td><td>未加密</td><td>其余 SDK 域名与 API 路径</td></tr>
+    </tbody>
+  </table>
+
+  <h3>5.2 应用自带的广告黑名单</h3>
+  <p>其中最有力的证据是开发者自己在 <code>arrays.xml</code> 里定义的黑名单:</p>
+
+  <pre><span class="b">&lt;string-array</span> name=<span class="g">"adBlockUrl"</span><span class="b">&gt;</span>
+    <span class="b">&lt;item&gt;</span>ubmcmm.baidustatic.com<span class="b">&lt;/item&gt;</span>
+    <span class="b">&lt;item&gt;</span>cpro2.baidustatic.com<span class="b">&lt;/item&gt;</span>
+    <span class="b">&lt;item&gt;</span>cpro.baidustatic.com<span class="b">&lt;/item&gt;</span>
+    <span class="b">&lt;item&gt;</span>s.lianmeng.360.cn<span class="b">&lt;/item&gt;</span>
+    <span class="b">&lt;item&gt;</span>nsclick.baidu.com<span class="b">&lt;/item&gt;</span>
+    <span class="b">&lt;item&gt;</span>pos.baidu.com<span class="b">&lt;/item&gt;</span>
+    <span class="b">&lt;item&gt;</span>cbjs.baidu.com<span class="b">&lt;/item&gt;</span>
+    <span class="b">&lt;item&gt;</span>cpro.baidu.com<span class="b">&lt;/item&gt;</span>
+    <span class="b">&lt;item&gt;</span>union.sogou.com/<span class="b">&lt;/item&gt;</span>
+    <span class="b">&lt;item&gt;</span>a.baidu.com<span class="b">&lt;/item&gt;</span>
+    <span class="b">&lt;item&gt;</span>c.baidu.com<span class="b">&lt;/item&gt;</span>
+<span class="b">&lt;/string-array&gt;</span></pre>
+
+  <div class="quote">
+    这是开发者<strong>自己认定的广告域名清单</strong>,可信度最高 —— 全部收录。
+  </div>
+
+  <h3>5.3 提取到的广告域名(按平台)</h3>
+  <table>
+    <thead><tr><th>平台</th><th>代表性域名</th><th>证据</th></tr></thead>
+    <tbody>
+      <tr><td>腾讯优量汇</td><td><code>sdk.e.qq.com</code>、<code>win.gdt.qq.com</code>、<code>qzs.gdtimg.com</code></td><td>JAR 内明文 API 路径</td></tr>
+      <tr><td>百度 Mobads</td><td><code>mobads.baidu.com</code>、<code>mobads-logs.baidu.com</code>、<code>wn.pos.baidu.com</code></td><td>JAR + 自带黑名单</td></tr>
+      <tr><td>快手磁力</td><td><code>open.e.kuaishou.com</code>、<code>api.kwaizt.com</code>、<code>w1.kskwai.com</code></td><td><code>ksad_idc.json</code></td></tr>
+      <tr><td>穿山甲</td><td><code>i.snssdk.com</code>、<code>pangolin.snssdk.com</code>、<code>bds.snssdk.com</code></td><td>安全配置明文清单</td></tr>
+      <tr><td>阿里天目</td><td><code>sdk.tianmu.mobi</code></td><td>dex 字符串表</td></tr>
+      <tr><td>YFAN / AdGain</td><td><code>tracker.yfanads.com</code>、<code>xadsmartget.adgain.cn</code></td><td>dex 字符串表</td></tr>
+      <tr><td>友盟</td><td>全套 <code>umeng.com</code> / <code>umengcloud.com</code> 上报接口</td><td>dex 字符串表</td></tr>
+    </tbody>
+  </table>
+
+  <h3>5.4 规则形态的演进</h3>
+  <p>规则从初版到最终版经历了一次关键升级:<strong>从精确域名匹配改为父域后缀匹配</strong>。</p>
+
+  <div class="cmp">
+    <div>
+      <h4>初版 · 精确匹配</h4>
+      <div class="big">125 条</div>
+      <p style="margin:10px 0 0;font-size:13.5px">
+        <code>DOMAIN,i.snssdk.com,REJECT</code><br>
+        只能匹配写死的域名。广告 SDK 一旦启用新子域就会漏过。
+      </p>
+    </div>
+    <div>
+      <h4>最终版 · 父域后缀匹配</h4>
+      <div class="big g">190 条</div>
+      <p style="margin:10px 0 0;font-size:13.5px">
+        <code>DOMAIN-SUFFIX,snssdk.com,REJECT</code><br>
+        一条覆盖整棵子树,对动态子域与 HTTPDNS 绕过都更鲁棒。
+      </p>
+    </div>
+  </div>
+
+  <h3>5.5 实测日志补漏</h3>
+  <p>静态分析拿不到的域名(藏在加密方法体里),通过手机实测日志反推补齐。
+  典型例子是<strong>京东广告链路</strong> —— 静态分析时零命中,实测日志里暴露无遗:</p>
+
+  <pre><span class="y">xlog.jd.com</span>     <span class="c">→ 27 次被放行  → 京东广告日志上报</span>
+<span class="y">dsp-x.jd.com</span>    <span class="c">→ 12 次被放行  → 京东广告 DSP 交易平台</span>
+<span class="y">janapi.jd.com</span>   <span class="c">→  1 次被放行  → 京东广告 API</span>
+<span class="y">dm.toutiao.com</span>  <span class="c">→  1 次被放行  → 头条广告线索</span></pre>
+
+  <p>这正是<strong>静态分析 + 动态实测</strong>互相补位的价值。</p>
+</section>
+
+<!-- ============ 6. 配置落地 ============ -->
+<section>
+  <h2><span class="n">6</span>第五阶段:配置落地与验证</h2>
+  <p class="lead">规则要真正用起来,还得解决「怎么装进用户的 Clash」这个问题。</p>
+
+  <h3>6.1 最终配置的结构</h3>
+  <p>用户的诉求是「要屏蔽广告,但不能影响翻墙」。最终方案是把广告规则
+  <strong>合并进他原有的机场订阅配置</strong>,合成一个可直接导入的完整文件:</p>
+
+  <pre>规则总数 <span class="b">190</span> 条
+├── 第 1 ~ 10 条     <span class="c">·</span> 淘宝 / 天猫 / 阿里 CDN 屏蔽
+├── 第 11 ~ 129 条   <span class="c">·</span> 广告域名拦截 <span class="g">(99 条父域 + 29 条精确)</span>
+└── 第 130 ~ 190 条  <span class="c">·</span> 订阅原有规则 <span class="y">(原样保留, 一条未动)</span>
+
+代理节点    <span class="g">46 个 · 逐字段未变</span>
+代理组      <span class="g">2 个 · 逐字段未变</span>
+兜底规则    <span class="g">MATCH,&lt;用户节点组&gt; · 仍在最后</span></pre>
+
+  <h3>6.2 三重验证</h3>
+  <div class="flow">
+    <div class="step done">
+      <div class="ico">1</div>
+      <div class="body">
+        <div class="t">内核校验</div>
+        <div class="d">用 mihomo 真实内核执行 <code>-t</code> 参数测试:
+        <code>configuration file test is successful</code>。</div>
+      </div>
+    </div>
+    <div class="step done">
+      <div class="ico">2</div>
+      <div class="body">
+        <div class="t">逐字段差异比对</div>
+        <div class="d">程序化对比原始订阅与合并后的配置:<strong>14 个非规则配置项全部逐字段相同</strong>,
+        0 项发生变化。</div>
+      </div>
+    </div>
+    <div class="step done">
+      <div class="ico">3</div>
+      <div class="body">
+        <div class="t">规则引用完整性</div>
+        <div class="d">校验规则中引用的所有代理组真实存在,避免「引用了不存在的组」导致启动失败。</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>6.3 安全性校验</h3>
+  <ul>
+    <li class="ok">黑名单中<strong>零个业务域名</strong> —— 登录、跑步、地图、推送、上传全部未受影响</li>
+    <li class="ok">剔除了裸父域(<code>baidu.com</code>、<code>qq.com</code>、<code>sogou.com</code>、<code>xiaomi.com</code>),只保留具体广告子域</li>
+    <li class="ok">剔除了共享基础设施域(<code>tracking.miui.com</code>、<code>metrics*.data.hicloud.com</code> 等 10 个),避免连累系统推送</li>
+    <li class="ok">剔除了一次误判:<code>g.alicdn.com</code> 是淘宝图片 CDN,屏蔽会导致图片加载失败</li>
+  </ul>
+</section>
+
+<!-- ============ 7. 实测结果 ============ -->
+<section>
+  <h2><span class="n">7</span>第六阶段:实测效果</h2>
+  <p class="lead">用手机实际运行一段时间后导出的 Clash 日志,是最终的验收依据。</p>
+
+  <div class="stats">
+    <div class="stat"><div class="v g">459</div><div class="k">被拦截的广告连接</div></div>
+    <div class="stat"><div class="v w">80</div><div class="k">放行连接(业务流量)</div></div>
+    <div class="stat"><div class="v g">85%</div><div class="k">拦截率</div></div>
+    <div class="stat"><div class="v p">41</div><div class="k">被拦截的广告主机</div></div>
+  </div>
+
+  <h3>7.1 被拦截的广告平台(部分)</h3>
+  <table>
+    <thead><tr><th>域名</th><th>拦截次数</th><th>归属</th></tr></thead>
+    <tbody>
+      <tr><td><code>sdk.e.qq.com</code></td><td class="num">86</td><td>腾讯优量汇 主广告接口</td></tr>
+      <tr><td><code>open.e.kuaishou.com</code></td><td class="num">57</td><td>快手磁力广告 API</td></tr>
+      <tr><td><code>tracker.yfanads.com</code></td><td class="num">42</td><td>YFAN 广告追踪</td></tr>
+      <tr><td><code>api-access.pangolin-sdk-toutiao.com</code></td><td class="num">38</td><td>穿山甲广告请求</td></tr>
+      <tr><td><code>v2mi.gdt.qq.com</code> / <code>mi.gdt.qq.com</code></td><td class="num">63</td><td>优量汇曝光监测</td></tr>
+      <tr><td><code>mobads.baidu.com</code></td><td class="num">18</td><td>百度 Mobads</td></tr>
+      <tr><td><code>xadsmartget.adgain.cn</code></td><td class="num">13</td><td>AdGain 广告 SDK</td></tr>
+      <tr><td><code>mssdk.volces.com</code></td><td class="num">12</td><td>字节 SDK 上报</td></tr>
+      <tr><td><code>sdk.tianmu.mobi</code></td><td class="num">3</td><td>阿里天目</td></tr>
+    </tbody>
+  </table>
+
+  <h3>7.2 放行的流量(全部为业务必需)</h3>
+  <table>
+    <thead><tr><th>类别</th><th>示例域名</th><th>作用</th></tr></thead>
+    <tbody>
+      <tr><td>App 业务域</td><td><code>discovery.gxapp.iydsj.com</code></td><td>发现页 / 跑步 / 上传 / H5</td></tr>
+      <tr><td>高德地图</td><td><code>mpsapi.amap.com</code></td><td>轨迹记录 / 定位 / 地图瓦片</td></tr>
+      <tr><td>个推推送</td><td><code>ido.gepush.com</code></td><td>消息推送长连接</td></tr>
+      <tr><td>登录认证</td><td><code>riskct.geetest.com</code></td><td>极验验证码 / 号码认证</td></tr>
+      <tr><td>厂商系统</td><td><code>account.xiaomi.com</code></td><td>手机系统自身服务</td></tr>
+    </tbody>
+  </table>
+
+  <h3>7.3 阶段性验证方法</h3>
+  <p>通过对比多轮日志中淘宝系域名的出现次数,确认屏蔽确实生效:</p>
+  <table>
+    <thead><tr><th>日志批次</th><th>taobao</th><th>tmall</th><th>alicdn</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td>第一轮</td><td class="num">8</td><td class="num">1</td><td class="num">13</td><td>尚未屏蔽</td></tr>
+      <tr><td>第二轮</td><td class="num" style="color:var(--ok)">0</td><td class="num" style="color:var(--ok)">0</td><td class="num" style="color:var(--ok)">0</td><td>屏蔽生效后彻底消失</td></tr>
+      <tr><td>第三轮</td><td class="num" style="color:var(--ok)">0</td><td class="num" style="color:var(--ok)">0</td><td class="num" style="color:var(--ok)">0</td><td>持续为 0</td></tr>
+    </tbody>
+  </table>
+  <p>域名被 REJECT 后连 DNS 都不再解析,因此日志中完全找不到 —— 这就是生效的直接证据。</p>
+</section>
+
+<!-- ============ 8. 边界 ============ -->
+<section>
+  <h2><span class="n">8</span>技术边界:哪些做不到</h2>
+  <p class="lead">如实说明方案的适用边界 —— 这比夸大效果更有价值。</p>
+
+  <h3>8.1 已排除的所有其他可能</h3>
+  <table>
+    <thead><tr><th>假设</th><th>结论</th><th>排除依据</th></tr></thead>
+    <tbody>
+      <tr><td>规则未生效</td><td style="color:var(--ok)">已排除</td><td>459 次拦截,新增规则在日志中被成功命中</td></tr>
+      <tr><td>应用被排除在代理外</td><td style="color:var(--ok)">已排除</td><td>业务域 <code>iydsj.com</code> 大量出现在日志中</td></tr>
+      <tr><td>QUIC / UDP 绕过</td><td style="color:var(--ok)">已排除</td><td>日志中 UDP 记录数为 0</td></tr>
+      <tr><td>DNS 泄露</td><td style="color:var(--ok)">已排除</td><td>日志含 DNS 解析失败记录,证明解析在 Clash 内完成</td></tr>
+      <tr><td>本地缓存</td><td style="color:var(--ok)">已排除</td><td>清除应用缓存后仍能复现</td></tr>
+    </tbody>
+  </table>
+
+  <h3>8.2 域名屏蔽原理上够不着的部分</h3>
+  <div class="card bad">
+    <p><strong>服务端下发广告。</strong>如果广告数据是随正常接口响应一起返回的,
+    那么它与业务数据走<strong>同一个 HTTPS 连接、同一个域名</strong>。域名规则只能判断
+    「连不连这个域名」,无法判断「这个连接返回的内容是广告还是正常数据」。</p>
+    <p style="margin:0">而该 App 的业务域 <code>iydsj.com</code> <strong>绝不能屏蔽</strong> ——
+    登录、跑步、发现页、上传全部依赖它。</p>
+  </div>
+
+  <h3>8.3 为什么 HTTPS 解密也解决不了</h3>
+  <p>那 10 个信任用户证书的域名,<strong>全部是第三方广告平台</strong>。
+  而业务域走 <code>base-config</code>,<strong>只信任系统证书</strong> ——
+  在无 Root 的情况下无法向系统证书库安装 CA,因此业务域流量在密码学上不可解密。</p>
+
+  <div class="quote">
+    这是开发者有意设计的隔离:广告域名放行用户证书(便于 SDK 调试),
+    业务域严格锁定系统证书。
+  </div>
+
+  <h3>8.4 建议的最终组合</h3>
+  <div class="cmp">
+    <div>
+      <h4>网络层 · Clash 规则(本项目成果)</h4>
+      <div class="big g">190 条</div>
+      <p style="margin:10px 0 0;font-size:13.5px">
+        拦截全部 11 个广告 SDK 的网络请求。实测 85% 拦截率。<br>
+        <strong>已完成并验证。</strong>
+      </p>
+    </div>
+    <div>
+      <h4>界面层 · GKD</h4>
+      <div class="big">自动点击</div>
+      <p style="margin:10px 0 0;font-size:13.5px">
+        基于无障碍服务,在界面层点掉服务端下发、域名拦不住的广告位。<br>
+        <strong>不关心广告来源,直接关掉。</strong>
+      </p>
+    </div>
+  </div>
+
+  <p><strong>网络层 + 界面层</strong>的组合,是在<strong>免 Root、不修改 APK</strong>
+  前提下的最优解。</p>
+</section>
+
+<!-- ============ 9. 交付物 ============ -->
+<section>
+  <h2><span class="n">9</span>交付物清单</h2>
+  <p class="lead">工作目录 <code>F:\apk_reverse\</code>,共 7502 个文件 / 1355 MB。</p>
+
+  <table>
+    <thead><tr><th>文件</th><th>用途</th></tr></thead>
+    <tbody>
+      <tr><td><code>04_patch\运动世界校园-去广告-合并订阅.yaml</code></td><td><strong>最终配置</strong> —— 190 条规则 + 原有 46 个节点,可直接导入</td></tr>
+      <tr><td><code>04_patch\01_clash_ad_block.yaml</code></td><td>广告域名清单(rule-provider 格式)</td></tr>
+      <tr><td><code>04_patch\03_hosts_blocklist.txt</code></td><td>hosts 格式,可给 AdGuard / NetGuard 使用</td></tr>
+      <tr><td><code>04_patch\08_导入合并配置.md</code></td><td>导入步骤与三重验证报告</td></tr>
+      <tr><td><code>05_report\01_初步分析报告.md</code></td><td>逆向分析全过程</td></tr>
+      <tr><td><code>05_report\02_ad_domains.md</code></td><td>596 行域名证据报告(逐域名标注来源)</td></tr>
+      <tr><td><code>05_report\04_最终分析报告.md</code></td><td>基于实测日志的最终分析</td></tr>
+      <tr><td><code>07_share\</code></td><td><strong>可分享规则包</strong> —— 6 个文件,已剥离全部订阅方私有数据</td></tr>
+      <tr><td><code>01_tools\</code></td><td>便携逆向工具链(JDK / apktool / jadx / smali)</td></tr>
+      <tr><td><code>02_inspect\</code></td><td>全部分析脚本(52 个)与中间产物</td></tr>
+    </tbody>
+  </table>
+
+  <h3>分享包的隐私处理</h3>
+  <p>为了能安全分享给他人,从配置中剥离了全部订阅方私有数据,并通过审计:</p>
+  <ul>
+    <li class="ok">46 个节点(含服务器地址、端口、密码、UUID)</li>
+    <li class="ok">代理组名称与订阅链接(含 token)</li>
+    <li class="ok">套餐信息条目(流量余额、到期日期)</li>
+    <li class="ok">订阅方自带的 61 条分流规则</li>
+  </ul>
+  <p>审计结果:<strong>6 个文件零 IP、零端口、零凭证、零 base64 串</strong>,
+  且父域规则与原配置逐一相同。</p>
+</section>
+
+<!-- ============ 10. 时间线 ============ -->
+<section>
+  <h2><span class="n">10</span>项目时间线</h2>
+  <div class="tl">
+    <div class="row"><div class="tag">阶段 1</div><div class="txt"><b>搭建工具链</b> —— 部署便携版 JDK 21 + apktool 3.0.3 + jadx 1.5.6 + smali + androguard</div></div>
+    <div class="row"><div class="tag">阶段 2</div><div class="txt"><b>解包与身份确认</b> —— 确认目标为运动世界校园 7.3.70,清点出 11 个广告 SDK</div></div>
+    <div class="row"><div class="tag">阶段 3</div><div class="txt"><b>发现加密壁垒</b> —— 73.8 MB 的 dex 里只有 30 个类 / 50 KB 有效数据,确认为网易易盾加固</div></div>
+    <div class="row"><div class="tag">阶段 4</div><div class="txt"><b>方案转向</b> —— 放弃改包,选择基于 VpnService 的网络层域名拦截</div></div>
+    <div class="row"><div class="tag">阶段 5</div><div class="txt"><b>域名清单生成</b> —— 从 <code>adBlockUrl</code>、未加密 JAR、IDC 配置、dex 字符串表四处提取</div></div>
+    <div class="row"><div class="tag">阶段 6</div><div class="txt"><b>规则升级</b> —— 从精确域名匹配升级为父域后缀匹配,提升对动态子域的覆盖</div></div>
+    <div class="row"><div class="tag">阶段 7</div><div class="txt"><b>配置合并与验证</b> —— 与用户订阅合并,通过内核校验与逐字段差异比对</div></div>
+    <div class="row"><div class="tag">阶段 8</div><div class="txt"><b>实测迭代</b> —— 依据手机日志补漏(新增京东广告链路、抖音开放接口等)</div></div>
+    <div class="row"><div class="tag">阶段 9</div><div class="txt"><b>边界确认</b> —— 排除全部其他可能,确认服务端下发广告为域名屏蔽的硬边界</div></div>
+    <div class="row"><div class="tag">阶段 10</div><div class="txt"><b>隐私化分享包</b> —— 剥离全部订阅方私有数据,产出 6 文件分享包</div></div>
+  </div>
+</section>
+
+<!-- ============ 11. 结论 ============ -->
+<section>
+  <h2><span class="n">11</span>结论</h2>
+
+  <div class="card ok">
+    <h3 style="margin-top:0">已完成</h3>
+    <ul style="margin-bottom:0">
+      <li class="ok">完整解包 317 MB 的 APK,确认应用身份与技术栈</li>
+      <li class="ok">识别出 <strong>11 个广告 SDK</strong> 及其域名体系</li>
+      <li class="ok">证实代码被<strong>网易易盾完整加密</strong>,静态修改路线不可行</li>
+      <li class="ok">构建出 <strong>190 条</strong>广告域名拦截规则,覆盖全部可发现的广告平台</li>
+      <li class="ok">与用户订阅合并为可直接导入的配置,<strong>翻墙功能零影响</strong></li>
+      <li class="ok">实测验证:<strong>459 次广告连接被拦截 / 85% 拦截率</strong></li>
+      <li class="ok">产出隐私化分享包,可安全分发给他人</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-top:0">未完成(技术边界)</h3>
+    <ul style="margin-bottom:0">
+      <li class="no">服务端下发的广告 —— 与业务数据同域名同连接,域名层原理上无法区分</li>
+      <li class="no">HTTPS 解密业务域 —— 业务域只信任系统证书,无 Root 无法安装 CA</li>
+      <li class="no">修改 App 本身 —— 易盾加密 + 签名校验,不改包是唯一可行前提</li>
+    </ul>
+  </div>
+
+  <div class="card hl">
+    <h3 style="margin-top:0">最终方案</h3>
+    <p style="margin-bottom:0">以<strong>网络层域名拦截</strong>为主,配合<strong>界面层自动点击工具</strong>。
+    这个组合在不获取 Root、不修改 APK 的前提下,把可行的部分做到了极限 ——
+    而这恰好也意味着<strong>零封号风险、可随时撤销、应用升级后规则依然有效</strong>。</p>
+  </div>
+</section>
+
+<footer>
+  <p style="margin-bottom:12px">
+    <span class="tagline">免 Root</span>
+    <span class="tagline">不改 APK</span>
+    <span class="tagline">零封号风险</span>
+    <span class="tagline">可随时撤销</span>
+  </p>
+  <p>运动世界校园 7.3.70 · com.zjwh.android_wh_physicalfitness<br>
+  分析日期 2026-10-15 · 全部数据来自静态逆向与手机实测日志</p>
+</footer>
+
+</div>
+</body>
+</html>
