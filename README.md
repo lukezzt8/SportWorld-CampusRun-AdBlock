@@ -81,6 +81,16 @@ rule-providers:
 
 > 用 URL 方式的好处:规则更新后客户端会自动拉取,不用手动替换文件。
 
+> **关于缓存**:jsDelivr 与 GitHub raw 都有 CDN 缓存(通常几分钟到几小时)。
+> 如果想确保拿到最新版本,可以在 URL 后加一个查询参数强制刷新,例如:
+> `
+> https://cdn.jsdelivr.net/gh/lukezzt8/SportWorld-CampusRun-AdBlock@main/rules/campusrun.yaml?v=1
+> `
+> 或者直接按 commit 哈希引用(永久有效、无缓存延迟):
+> `
+> https://cdn.jsdelivr.net/gh/lukezzt8/SportWorld-CampusRun-AdBlock@<commit>/rules/campusrun.yaml
+> `
+
 ---
 
 ### 方式二:作为规则集叠加(推荐)
