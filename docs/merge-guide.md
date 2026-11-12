@@ -1,6 +1,25 @@
 # 合并指南
 
-本项目提供三种使用方式,按你的情况选择。
+本项目提供四种使用方式,按你的情况选择。
+
+---
+
+## 零、JavaScript 脚本一键覆写（已有代理订阅用户最推荐）
+
+用 `scripts/campusrun_flclash_script.js`。
+
+适用客户端：**FlClash（Android / 桌面端）**、**Clash Verge Rev**、**Mihomo Party** 等支持 JS 覆写脚本的 Mihomo 内核客户端。
+
+**为什么推荐这种方式：**
+
+- **无需修改主订阅**：自动将规则无损前置注入到现有代理配置中，订阅自动更新也不会冲掉去广告规则。
+- **进程级防误伤**：通过 `AND,((PROCESS-NAME,com.zjwh.android_wh_physicalfitness),...)` 将 `taobao.com`、`alicdn.com`、`snssdk.com`、`kuaishou.com` 等 30 个共享电商/短视频/公共 CDN 域名严格限制在运动世界校园进程内拦截，跑完步无需关配置，日常刷淘宝、饿了么商品图、抖音、快手完全不受影响。
+
+**FlClash 导入步骤：**
+
+1. 下载 `scripts/campusrun_flclash_script.js` 到手机
+2. 打开 FlClash → 底部「**工具**」→「**脚本 (Script)**」→ 右下角「**+**」导入该 `.js` 文件
+3. 在当前代理订阅的脚本覆写中启用它，并确保打开 **VPN（TUN）模式** 且分流模式为「**规则**」
 
 ---
 
