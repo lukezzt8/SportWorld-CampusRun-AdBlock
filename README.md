@@ -1,7 +1,7 @@
 # 运动世界校园 · 去广告规则
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Rules](https://img.shields.io/badge/rules-128-blue.svg)](#规则构成)
+[![Rules](https://img.shields.io/badge/rules-129-blue.svg)](#规则构成)
 [![No Root](https://img.shields.io/badge/root-not%20required-green.svg)](#为什么不需要-root)
 
 ## 🎯 不懂技术?复制这段话给 AI 就行
@@ -45,9 +45,10 @@ AI 会先问你几个问题,然后一步步带你做完。**卡住了就直接�
 
 | 类型 | 条数 | 说明 |
 |---|---|---|
-| `DOMAIN-SUFFIX` 父域规则 | 99 | 一条覆盖整棵子树,抗动态子域 |
-| `DOMAIN` 精确规则 | 29 | 补齐父域规则未覆盖的部分 |
-| **合计** | **128** | |
+| `AND` + `PROCESS-NAME` 进程级隔离规则 | 30 | 仅在运动世界校园进程内拦截 `taobao.com` / `alicdn.com` / `snssdk.com` / `kuaishou.com` 等共享域，**日常刷淘宝/饿了么/抖音/快手零误伤** |
+| `DOMAIN-SUFFIX` 纯广告 SDK 父域规则 | 78 | 一条覆盖整棵子树，抗动态子域（`campusrun.yaml` 中已补齐 `+.` 通配） |
+| `DOMAIN` 纯广告 SDK 精确规则 | 21 | 补齐父域规则未覆盖的独立广告主机 |
+| **合计** | **129** | 纯规则集 `rules/campusrun.yaml` 含 99 条纯广告 SDK 域名 |
 
 覆盖的广告平台:
 
@@ -69,7 +70,17 @@ AI 会先问你几个问题,然后一步步带你做完。**卡住了就直接�
 
 ## 快速开始
 
-### 方式一:直接导入(不需要代理)
+### 方式一（推荐已有代理用户）：JS 脚本一键覆写（保留原有机场订阅）
+
+如果你平时已经在用 **FlClash（Android / 桌面端）**、**Clash Verge Rev** 或 **Mihomo Party**，直接导入 [`scripts/campusrun_flclash_script.js`](scripts/campusrun_flclash_script.js) 即可，**无需改动原有代理配置，跑完步也不用手动来回切配置**：
+
+1. 下载 [`scripts/campusrun_flclash_script.js`](scripts/campusrun_flclash_script.js)（也可直接在 Release 页面下载单文件）
+2. 打开 **FlClash** → 底部「**工具**」→「**脚本 (Script)**」→ 右下角「**+**」导入该 `.js` 文件
+3. 进入当前正在使用的代理订阅覆写设置，勾选启用该脚本，确保开启 **VPN（TUN）模式** 与「**规则**」分流即可
+
+脚本会自动把 30 条 `PROCESS-NAME` 进程隔离规则 + 99 条纯广告 SDK 规则无损注入到你现有订阅 `rules` 的最前面（并自动去重）。
+
+### 方式二：直接导入独立配置（不需要代理）
 
 用 [`configs/standalone.yaml`](configs/standalone.yaml) —— 含一个直连占位节点,
 导入后除广告域名被拦截外,其余流量全部直连。
@@ -124,9 +135,9 @@ rule-providers:
 
 ---
 
-### 方式二:作为规则集叠加(推荐)
+### 方式三:作为规则集叠加
 
-用 [`rules/campusrun.yaml`](rules/campusrun.yaml) 作为 Clash 的 `rule-provider`:
+用 [`rules/campusrun.yaml`](rules/campusrun.yaml) 作为 Clash 的 `rule-provider`（注：纯域名规则集仅含 99 条纯广告 SDK 域，已剔除淘宝/抖音等共享域避免全局断网）：
 
 ```yaml
 rule-providers:
@@ -141,10 +152,10 @@ rules:
   - 'MATCH,你的代理组'             # 你原有的兜底规则保持在最后
 ```
 
-### 方式三:合并进现有配置
+### 方式四:YAML 合并进现有配置
 
 用 [`configs/prepend-rules.yaml`](configs/prepend-rules.yaml) ——
-适合 Clash Verge Rev 的「规则覆写」、mihomo 的 mixin/patch 功能。
+适合 Clash Verge Rev 的「规则覆写」、mihomo 的 mixin/patch 功能（含完整 129 条规则及进程级防误伤隔离）。
 
 > **如果你用 AI 帮忙合并配置**,请参考 [`docs/ai-prompt.md`](docs/ai-prompt.md),
 > 里面写了完整的约束条件(不改节点、不加 MATCH 兜底、不许改成关键词匹配等),

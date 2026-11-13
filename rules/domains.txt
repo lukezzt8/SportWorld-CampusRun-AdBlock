@@ -1,35 +1,22 @@
-# 运动世界校园 广告域名清单 / Plain domain list
-# 共 128 条 (99 父域 + 29 精确)
-# 前半部分为父域(可配通配符 *.example.com), 后半部分为精确域名。
+# 运动世界校园 纯广告域名清单 / Plain domain list（零误伤纯净版）
+# 共 99 条 (78 父域 + 21 精确)，已剔除淘宝/抖音/快手主站与公共图片 CDN
 
-# ---- 父域 (99 条) ----
-taobao.com
-tmall.com
-alicdn.com
-alibaba.com
-tbcdn.cn
-taobaocdn.com
+# ---- 父域 (78 条) ----
 tanx.com
 alimama.com
 simba.taobao.com
 strip.taobao.com
-snssdk.com
-pstatp.com
 pglstatp-toutiao.com
 pangolin-sdk-toutiao.com
 pangolin-sdk-toutiao1.com
 pangolin-sdk-toutiao-b.com
 ctobsnssdk.com
-zijieapi.com
 bytesfield.com
 bytesfield-b.com
 oceanengine.com
 bytesmanager.com
-bytedance.net
-volces.com
 pangle.cn
 csjplatform.com
-toutiaopage.com
 chengzijianzhan.com
 gdt.qq.com
 gdtimg.com
@@ -59,19 +46,15 @@ hmma.baidu.com
 bes-mtj.baidu.com
 media-interact.baidu.com
 render-server.cdn.bcebos.com
-b.bdstatic.com
-kuaishou.com
-kuaishou.cn
 kuaishouzt.com
 kwaizt.com
 kskwai.com
 gskwai.com
-gifshow.com
-ksapisrv.com
 ads.heytapmobi.com
 adsfs.heytapimage.com
 api-audit.heytapmobi.com
 mdp-usertrace-cn.heytapmobi.com
+open.e.kuaishou.com
 sdkconfig.ad.xiaomi.com
 sdkconfig.ad.intl.xiaomi.com
 sdkconfig.ad.india.xiaomi.com
@@ -88,7 +71,6 @@ oozk.cn
 fyeds.com
 fyeds3.com
 currentinputsdk.top
-weimob.com
 yfanads.com
 yfanads.cn
 puata.info
@@ -96,17 +78,11 @@ guangtuikeji.com
 adgain.cn
 lianmeng.360.cn
 union.sogou.com
-images.sohu.com
 dynamic_cast.cc
 tdid.m.qq.com
-qzs.qq.com
-i.gtimg.cn
-qzonestyle.gtimg.cn
 
-# ---- 精确域名 (29 条) ----
+# ---- 精确域名 (21 条) ----
 dm.bytedance.com
-webcast5-open-lf.douyin.com
-webcast-open.douyin.com
 dm.toutiao.com
 x.jd.com
 im-x.jd.com
@@ -118,7 +94,6 @@ xlog.jd.com
 dsp-x.jd.com
 janapi.jd.com
 www.pangolin-dsp-toutiao.com
-lf-cdn-tos.bytescm.com
 mssdk.volces.com
 a.baidu.com
 ad.toutiao.com
@@ -126,10 +101,5 @@ ada.baidu.com
 als.baidu.com
 browserkernel.baidu.com
 c.baidu.com
-haokan.baidu.com
 phoniex.toutiao.com
 scc.bytedance.com
-api.ip.sb
-ipapi.co
-api.ipapi.is
-ipwho.is

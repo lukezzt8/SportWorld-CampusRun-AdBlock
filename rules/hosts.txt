@@ -1,35 +1,21 @@
-# 运动世界校园 广告域名 / hosts format
-# 共 128 条 (99 父域 + 29 精确)
-# 可导入 AdGuard / NetGuard / RethinkDNS / AdAway, 或追加到系统 hosts。
-# 在线地址: https://cdn.jsdelivr.net/gh/lukezzt8/SportWorld-CampusRun-AdBlock@main/rules/hosts.txt
+# 运动世界校园 纯广告域名 / hosts format（零误伤纯净版）
+# 共 99 条，可安全导入 AdGuard / NetGuard / RethinkDNS / AdAway，不影响淘宝/饿了么/抖音正常使用
 
-0.0.0.0 taobao.com
-0.0.0.0 tmall.com
-0.0.0.0 alicdn.com
-0.0.0.0 alibaba.com
-0.0.0.0 tbcdn.cn
-0.0.0.0 taobaocdn.com
 0.0.0.0 tanx.com
 0.0.0.0 alimama.com
 0.0.0.0 simba.taobao.com
 0.0.0.0 strip.taobao.com
-0.0.0.0 snssdk.com
-0.0.0.0 pstatp.com
 0.0.0.0 pglstatp-toutiao.com
 0.0.0.0 pangolin-sdk-toutiao.com
 0.0.0.0 pangolin-sdk-toutiao1.com
 0.0.0.0 pangolin-sdk-toutiao-b.com
 0.0.0.0 ctobsnssdk.com
-0.0.0.0 zijieapi.com
 0.0.0.0 bytesfield.com
 0.0.0.0 bytesfield-b.com
 0.0.0.0 oceanengine.com
 0.0.0.0 bytesmanager.com
-0.0.0.0 bytedance.net
-0.0.0.0 volces.com
 0.0.0.0 pangle.cn
 0.0.0.0 csjplatform.com
-0.0.0.0 toutiaopage.com
 0.0.0.0 chengzijianzhan.com
 0.0.0.0 gdt.qq.com
 0.0.0.0 gdtimg.com
@@ -59,19 +45,15 @@
 0.0.0.0 bes-mtj.baidu.com
 0.0.0.0 media-interact.baidu.com
 0.0.0.0 render-server.cdn.bcebos.com
-0.0.0.0 b.bdstatic.com
-0.0.0.0 kuaishou.com
-0.0.0.0 kuaishou.cn
 0.0.0.0 kuaishouzt.com
 0.0.0.0 kwaizt.com
 0.0.0.0 kskwai.com
 0.0.0.0 gskwai.com
-0.0.0.0 gifshow.com
-0.0.0.0 ksapisrv.com
 0.0.0.0 ads.heytapmobi.com
 0.0.0.0 adsfs.heytapimage.com
 0.0.0.0 api-audit.heytapmobi.com
 0.0.0.0 mdp-usertrace-cn.heytapmobi.com
+0.0.0.0 open.e.kuaishou.com
 0.0.0.0 sdkconfig.ad.xiaomi.com
 0.0.0.0 sdkconfig.ad.intl.xiaomi.com
 0.0.0.0 sdkconfig.ad.india.xiaomi.com
@@ -88,7 +70,6 @@
 0.0.0.0 fyeds.com
 0.0.0.0 fyeds3.com
 0.0.0.0 currentinputsdk.top
-0.0.0.0 weimob.com
 0.0.0.0 yfanads.com
 0.0.0.0 yfanads.cn
 0.0.0.0 puata.info
@@ -96,15 +77,9 @@
 0.0.0.0 adgain.cn
 0.0.0.0 lianmeng.360.cn
 0.0.0.0 union.sogou.com
-0.0.0.0 images.sohu.com
 0.0.0.0 dynamic_cast.cc
 0.0.0.0 tdid.m.qq.com
-0.0.0.0 qzs.qq.com
-0.0.0.0 i.gtimg.cn
-0.0.0.0 qzonestyle.gtimg.cn
 0.0.0.0 dm.bytedance.com
-0.0.0.0 webcast5-open-lf.douyin.com
-0.0.0.0 webcast-open.douyin.com
 0.0.0.0 dm.toutiao.com
 0.0.0.0 x.jd.com
 0.0.0.0 im-x.jd.com
@@ -116,7 +91,6 @@
 0.0.0.0 dsp-x.jd.com
 0.0.0.0 janapi.jd.com
 0.0.0.0 www.pangolin-dsp-toutiao.com
-0.0.0.0 lf-cdn-tos.bytescm.com
 0.0.0.0 mssdk.volces.com
 0.0.0.0 a.baidu.com
 0.0.0.0 ad.toutiao.com
@@ -124,10 +98,5 @@
 0.0.0.0 als.baidu.com
 0.0.0.0 browserkernel.baidu.com
 0.0.0.0 c.baidu.com
-0.0.0.0 haokan.baidu.com
 0.0.0.0 phoniex.toutiao.com
 0.0.0.0 scc.bytedance.com
-0.0.0.0 api.ip.sb
-0.0.0.0 ipapi.co
-0.0.0.0 api.ipapi.is
-0.0.0.0 ipwho.is
