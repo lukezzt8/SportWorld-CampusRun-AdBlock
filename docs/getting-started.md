@@ -134,9 +134,19 @@ DOMAIN-SUFFIX,snssdk.com,REJECT
 意思是"不连 snssdk.com"。
 
 **Q:我手机已经有梯子了,怎么办?**
-A:**不要**用上面那个 `standalone.yaml`,会把你的节点弄丢。
-改用 `configs/prepend-rules.yaml`,并且**这个最省事的办法仍然是问 AI** ——
-把这句话告诉它:「我已经有代理订阅了,不要动我的节点」。
+A:**千万不要**直接导上面的 `standalone.yaml`,否则会把你原有的节点顶掉。
+如果你用的是 **FlClash / Clash Verge Rev / Mihomo Party**，现在有**最简单的一键脚本法（保留原有节点、且不误伤淘宝/抖音）**：
+
+1. 点击下载一键去广告脚本 `campusrun_flclash_script.js`:
+   - Release 直接下载包: 见仓库右侧 **Releases** 页面中的 `campusrun_flclash_script.js`
+   - 国内免翻墙 CDN 直链(长按全选复制保存为 `campusrun.js`,或直接浏览器下载):
+     ```
+     https://cdn.jsdelivr.net/gh/lukezzt8/SportWorld-CampusRun-AdBlock@main/scripts/campusrun_flclash_script.js
+     ```
+2. 打开 **FlClash** → 点底部「**工具**」→ 点「**脚本 (Script)**」→ 点右下角「**+**」导入这个 `.js` 文件
+3. 进入你当前正在用的机场订阅配置 → 在「脚本覆写」里勾选启用它 → 确保主页打开了 **VPN 大开关**且模式为「**规则**」即可(跑完步也不用关,平时刷淘宝/抖音完全不受影响)。
+
+*(如果你的客户端不支持 `.js` 脚本,也可以改用 `configs/prepend-rules.yaml`,把「我已经有代理订阅了,不要动我的节点」连同该文件发给 AI 帮你合并。)*
 
 **Q:我用的是 AdGuard / 路由器,能行吗?**
 A:能。用这个网址:
@@ -156,15 +166,18 @@ https://cdn.jsdelivr.net/gh/lukezzt8/SportWorld-CampusRun-AdBlock@main/rules/hos
 
 | 项目 | 说明 |
 |---|---|
-| 规则条数 | 128 条(99 条 `DOMAIN-SUFFIX` 父域 + 29 条 `DOMAIN` 精确) |
-| 适用客户端 | Clash / mihomo 系(Clash Verge Rev、Clash Meta for Android、FlClash…) |
+| 规则条数 | 129 条(30 条 `PROCESS-NAME` 进程级防误伤 + 78 条 `DOMAIN-SUFFIX` 父域 + 21 条 `DOMAIN` 精确) |
+| 适用客户端 | Clash / mihomo 系(FlClash、Clash Verge Rev、Clash Meta for Android、Mihomo Party…) |
 | 覆盖平台 | 腾讯优量汇、字节穿山甲+GroMore、快手磁力、百度 Mobads、阿里天目、京东广告、YFAN AdX、AdGain、友盟、OTS 线下推广、厂商广告 SDK |
-| 实测拦截率 | 85%(单次会话 459 次广告连接被拦截) |
+| 实测拦截率 | 85%(单次会话 459 次广告连接被拦截,且日常淘宝/饿了么/抖音/快手零误伤) |
 | **关键约束 1** | 规则必须位于 `rules:` **最前面** —— Clash 按顺序匹配,放后面不生效 |
 | **关键约束 2** | 叠加使用时**不可加 `MATCH` 兜底规则**,否则会覆盖你自己的兜底规则导致无法代理 |
-| **关键约束 3** | 必须开 **TUN / VPN 模式**。「系统代理」模式下 App 流量不经过 Clash |
+| **关键约束 3** | 必须开 **TUN / VPN 模式**(安卓手机打开 VPN 总开关即默认启用 `tun0`)。「系统代理」模式下 App 流量不经过 Clash |
 
-## 三种接入方式
+## 四种接入方式
+
+**⓪ JS 脚本一键覆写**(已有代理订阅用户最推荐)
+`scripts/campusrun_flclash_script.js` —— 在 FlClash「工具 → 脚本 → `+` 导入」挂载即可,自动无损注入现有订阅最前面,订阅更新不丢失。
 
 **① 独立导入**(不需要代理)
 `configs/standalone.yaml` —— 含直连占位节点,除广告外全部直连。
